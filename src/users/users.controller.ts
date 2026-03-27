@@ -27,9 +27,9 @@ export class UsersController {
     return this.usersService.findAll(role);
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.usersService.findOne(+id);
+  @Get(":id?")
+  findOne(@Param("id") id?: string, @Query("username") username?: string) {
+    return this.usersService.findOne(id ? Number(id) : undefined, username);
   }
 
   @Patch(":id")
