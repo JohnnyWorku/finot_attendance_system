@@ -13,21 +13,42 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  // Helper function to generate userId
+  private async generateUserId(createUserDto: CreateUserDto): Promise<string> {
+    const { userFullName, userRole } = createUserDto;
+
+    const splitted_full_name = userFullName.split(" ");
+    const first3 = splitted_full_name[0].slice(0, 3).toLowerCase();
+    const middle2 = splitted_full_name[1].slice(0, 2).toLowerCase();
+    const last2 = splitted_full_name[2].slice(0, 2).toLowerCase();
+
+    // Find the last userId that matches the pattern
+    const lastUser = await this.userRepository
+      .createQueryBuilder("user")
+      .where("user.userId LIKE :pattern", {
+        pattern: `ft_${first3}_${middle2}_${last2}_%_${userRole}`,
+      })
+      .orderBy("user.createdAt", "DESC")
+      .getOne();
+
+    // Extract the last sequence number
+    let nextSequence = "001";
+    if (lastUser) {
+      const parts = lastUser.userId.split("_");
+      const lastSeq = parseInt(parts[3], 10);
+      nextSequence = (lastSeq + 1).toString().padStart(3, "0");
+    }
+
+    return `ft_${first3}_${last2}_${nextSequence}_${userRole}`;
+  }
+
+  // transaction concept is not considered yet
   async create(createUserDto: CreateUserDto) {
-    // // Implement the auto generation of userId
-
-    // let count = await this.userRepository.count({
-    //   where: {
-    //     firstName: createUserDto.firstName,
-    //     lastName: createUserDto.lastName,
-    //   },
-    // });
-
-    // userId = `ft_${createUserDto.firstName.slice(0, 3).toLowerCase()}_${createUserDto.lastName.slice(0, 2).toLowerCase()}_${(count + 1).toString().padStart(3, "0")}`;
+    const userId = await this.generateUserId(createUserDto);
 
     const newUser = this.userRepository.create({
       ...createUserDto,
-      // userId,
+      userId,
       dateOfBirth: createUserDto.dateOfBirth
         ? new Date(createUserDto.dateOfBirth)
         : null,
