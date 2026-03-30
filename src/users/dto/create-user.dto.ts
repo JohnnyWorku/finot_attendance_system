@@ -21,10 +21,6 @@ export class CreateUserDto {
   })
   userId!: string;
 
-  @IsString()
-  @IsNotEmpty()
-  userFullName!: string;
-
   @IsOptional()
   @IsString()
   userPhone?: string;
