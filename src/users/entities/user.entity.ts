@@ -8,46 +8,56 @@ import {
 } from "typeorm";
 
 import { usersRole } from "src/enums/users.roles.enum";
+import { otherSundaySchoolEnrollment } from "src/enums/other.sunday.school.enrollment.enum";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   @Column()
-  user_id!: string;
+  userId!: string;
 
   @Column()
-  full_name!: string;
+  userFullName!: string;
+
+  @Column({ type: "varchar", nullable: true })
+  userPhone!: string | null;
+
+  @Column({ type: "varchar", nullable: true })
+  userEmail!: string | null;
 
   @Column()
-  father_name!: string;
+  fatherName!: string;
+
+  @Column({ type: "varchar", nullable: true })
+  fatherPhone!: string | null;
 
   @Column()
-  mother_name!: string;
+  motherName!: string;
 
-  @Column()
-  user_phone!: number | undefined;
-
-  @Column()
-  father_phone!: number;
-
-  @Column()
-  mother_phone!: number;
+  @Column({ type: "varchar", nullable: true })
+  motherPhone!: string | null;
 
   @Column()
   address!: string;
 
-  @Column({ type: "date" })
-  date_of_birth!: Date;
+  @Column({ type: "date", nullable: true })
+  dateOfBirth!: Date | null;
+
+  @Column({
+    type: "enum",
+    enum: otherSundaySchoolEnrollment,
+  })
+  otherSundaySchoolEnrollment!: otherSundaySchoolEnrollment;
 
   @Column({
     type: "enum",
     enum: usersRole,
   })
-  user_role!: usersRole;
+  userRole!: usersRole;
 
   @Column()
-  other_ss!: string;
+  password!: string;
 
   @CreateDateColumn({ type: "timestamptz" })
   createdAt!: Date;
@@ -55,6 +65,6 @@ export class User {
   @UpdateDateColumn({ type: "timestamptz" })
   updatedAt!: Date;
 
-  @DeleteDateColumn({ type: "timestamptz" })
-  deletedAt!: Date;
+  @DeleteDateColumn({ type: "timestamptz", nullable: true })
+  deletedAt!: Date | null;
 }
