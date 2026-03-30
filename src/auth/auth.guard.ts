@@ -38,7 +38,7 @@ export class AuthGuard implements CanActivate {
       // is the key that was passsed in the JwtModule
       const payload = await this.jwtService.verifyAsync(token);
 
-      const user = await this.usersService.findOne(payload.userId);
+      const user = await this.usersService.findOneByUserId(payload.userId);
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
       request["user"] = user;

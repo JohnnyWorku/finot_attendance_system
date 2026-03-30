@@ -39,7 +39,7 @@ export class UsersService {
       nextSequence = (lastSeq + 1).toString().padStart(3, "0");
     }
 
-    return `ft_${first3}_${last2}_${nextSequence}_${userRole}`;
+    return `ft_${first3}_${middle2}_${last2}_${nextSequence}_${userRole}`;
   }
 
   // transaction concept is not considered yet
@@ -63,26 +63,39 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  async findOne(userId?: string) {
-    const user = await this.userRepository.findOneBy({ userId });
+  async findOneById(id?: string) {
+    const user = await this.userRepository.findOneBy({ id });
 
-    if (!user) throw new NotFoundException(`User with id ${userId} not found.`);
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+
     return user;
   }
 
-  async update(userId: string, updateUserDto: UpdateUserDto) {
+  async findOneByUserId(userId?: string) {
+    const user = await this.userRepository.findOneBy({ userId });
+
+    if (!user) {
+      throw new NotFoundException(`User with userId ${userId} not found`);
+    }
+
+    return user;
+  }
+
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const updatedDto = {
       ...updateUserDto,
       dateOfBirth: updateUserDto.dateOfBirth
         ? new Date(updateUserDto.dateOfBirth)
         : null,
     };
-    await this.userRepository.update(userId, updatedDto);
-    return this.findOne(userId);
+    await this.userRepository.update(id, updatedDto);
+    return this.findOneById(id);
   }
 
   async remove(id: string) {
-    const user = await this.findOne(id);
+    const user = await this.findOneById(id);
     return this.userRepository.remove(user);
   }
 }
