@@ -13,17 +13,18 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  // Implement the auto generation of userId
-  // const count = await this.userRepository.count({
-  //   where: {
-  //     firstName: createUserDto.firstName,
-  //     lastName: createUserDto.lastName,
-  //   },
-  // });
-
-  // userId = `ft_${createUserDto.firstName.slice(0, 3).toLowerCase()}_${createUserDto.lastName.slice(0, 2).toLowerCase()}_${(count + 1).toString().padStart(3, "0")}`;
-
   async create(createUserDto: CreateUserDto) {
+    // // Implement the auto generation of userId
+
+    // let count = await this.userRepository.count({
+    //   where: {
+    //     firstName: createUserDto.firstName,
+    //     lastName: createUserDto.lastName,
+    //   },
+    // });
+
+    // userId = `ft_${createUserDto.firstName.slice(0, 3).toLowerCase()}_${createUserDto.lastName.slice(0, 2).toLowerCase()}_${(count + 1).toString().padStart(3, "0")}`;
+
     const newUser = this.userRepository.create({
       ...createUserDto,
       // userId,
