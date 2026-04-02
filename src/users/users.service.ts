@@ -5,46 +5,19 @@ import { User } from "./entities/user.entity";
 import { usersRole } from "src/enums/users.roles.enum";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { UserIdGenerator } from "src/users/helper_functions/user.id.generator";
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly userIdGenerator: UserIdGenerator,
   ) {}
-
-  // Helper function to generate userId
-  private async generateUserId(createUserDto: CreateUserDto): Promise<string> {
-    const { userFullName, userRole } = createUserDto;
-
-    const splitted_full_name = userFullName.split(" ");
-    const first3 = splitted_full_name[0].slice(0, 3).toLowerCase();
-    const middle2 = splitted_full_name[1].slice(0, 2).toLowerCase();
-    const last2 = splitted_full_name[2].slice(0, 2).toLowerCase();
-
-    // Find the last userId that matches the pattern
-    const lastUser = await this.userRepository
-      .createQueryBuilder("user")
-      .where("user.userId LIKE :pattern", {
-        pattern: `ft_${first3}_${middle2}_${last2}_%_${userRole}`,
-      })
-      .orderBy("user.createdAt", "DESC")
-      .getOne();
-
-    // Extract the last sequence number
-    let nextSequence = "001";
-    if (lastUser) {
-      const parts = lastUser.userId.split("_");
-      const lastSeq = parseInt(parts[3], 10);
-      nextSequence = (lastSeq + 1).toString().padStart(3, "0");
-    }
-
-    return `ft_${first3}_${middle2}_${last2}_${nextSequence}_${userRole}`;
-  }
 
   // transaction concept is not considered yet
   async create(createUserDto: CreateUserDto) {
-    const userId = await this.generateUserId(createUserDto);
+    const userId = await this.userIdGenerator.generateUserId(createUserDto);
 
     const newUser = this.userRepository.create({
       ...createUserDto,

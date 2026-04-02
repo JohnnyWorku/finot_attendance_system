@@ -12,15 +12,13 @@ import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { usersRole } from "src/enums/users.roles.enum";
-import { Public } from "src/decorators/public.decorator";
+// import { Public } from "src/decorators/public.decorator";
 import { Roles } from "src/decorators/roles.decorator";
 
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // @Roles(usersRole.ADMIN)
-  @Public()
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -37,7 +35,6 @@ export class UsersController {
     return this.usersService.findOneByUserId(userId);
   }
 
-  @Public()
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
