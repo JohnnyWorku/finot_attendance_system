@@ -3,12 +3,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 
 import { usersRole } from "src/enums/users.roles.enum";
 import { otherSundaySchoolEnrollment } from "src/enums/other.sunday.school.enrollment.enum";
+import { Attendance } from "src/attendances/entities/attendance.entity";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -67,4 +69,7 @@ export class User {
 
   @DeleteDateColumn({ type: "timestamptz", nullable: true })
   deletedAt!: Date | null;
+
+  @OneToMany(() => Attendance, (attendance) => attendance.user)
+  attendances!: Attendance;
 }
