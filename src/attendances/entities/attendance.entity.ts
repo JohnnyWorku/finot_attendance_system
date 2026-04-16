@@ -1,5 +1,13 @@
 import { attendanceStatus } from "src/enums/attendance.status.enum";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { AttendanceSession } from "./attendance.session.entity";
 import { User } from "src/users/entities/user.entity";
 
@@ -34,10 +42,18 @@ export class Attendance {
   @ManyToOne(() => AttendanceSession, (session) => session.records, {
     onDelete: "CASCADE",
   })
+  @JoinColumn()
   session!: AttendanceSession;
 
   @ManyToOne(() => User, (user) => user.attendances, {
     eager: true,
   })
+  @JoinColumn()
   user!: User;
+
+  @CreateDateColumn({ type: "timestamptz" })
+  createdAt!: Date;
+
+  @UpdateDateColumn({ type: "timestamptz" })
+  updatedAt!: Date;
 }
