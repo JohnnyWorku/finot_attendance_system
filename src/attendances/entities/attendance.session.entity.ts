@@ -4,6 +4,7 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { Attendance } from "./attendance.entity";
 
@@ -12,11 +13,14 @@ export class AttendanceSession {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
+  @Column({ type: "date" })
+  date!: Date;
+
   @Column()
   sessionTitle!: string;
 
-  @Column({ type: "date" })
-  date!: Date;
+  @Column()
+  sessionDescription?: string;
 
   @Column({ nullable: true })
   startTime!: Date | null;
@@ -29,6 +33,9 @@ export class AttendanceSession {
 
   @CreateDateColumn({ type: "timestamptz" })
   createdAt!: Date;
+
+  @UpdateDateColumn({ type: "timestamptz" })
+  updatedAt!: Date;
 
   @OneToMany(() => Attendance, (attendance) => attendance.session, {
     cascade: true,
