@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { AttendanceSession } from "./attendance-session.entity";
+import { AttendanceSession } from "./session.entity";
 import { User } from "src/users/entities/user.entity";
 import { attendanceType } from "src/enums/attendance-type.enum";
 

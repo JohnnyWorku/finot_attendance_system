@@ -9,7 +9,7 @@ import {
 import { Attendance } from "./attendance.entity";
 
 @Entity()
-export class AttendanceSession {
+export class Session {
   @PrimaryGeneratedColumn("uuid")
   sessionId!: string;
 
