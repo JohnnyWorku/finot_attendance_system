@@ -9,8 +9,8 @@ import {
   Query,
 } from "@nestjs/common";
 import { SessionService } from "./sessions.service";
-import { CreateAttendanceSessionDto } from "./dto/create-attendance-session.dto";
-import { UpdateAttendanceSessionDto } from "./dto/update-attendance-session.dto";
+import { CreateSessionDto } from "./dto/create-session.dto";
+import { UpdateSessionDto } from "./dto/update-session.dto";
 import { FindSessionDto } from "./dto/find-session.dto";
 
 @Controller("session")
@@ -19,8 +19,8 @@ export class SessionController {
 
   // Create Session
   @Post()
-  create(@Body() createAttendanceSessionDto: CreateAttendanceSessionDto) {
-    return this.sessionService.create(createAttendanceSessionDto);
+  create(@Body() createSessionDto: CreateSessionDto) {
+    return this.sessionService.create(createSessionDto);
   }
 
   // Find all Sessions
@@ -45,9 +45,9 @@ export class SessionController {
   @Patch(":sessionId")
   update(
     @Param("sessionId") sessionId: string,
-    @Body() updateAttendaceSessionDto: UpdateAttendanceSessionDto,
+    @Body() updateSessionDto: UpdateSessionDto,
   ) {
-    return this.sessionService.update(sessionId, updateAttendaceSessionDto);
+    return this.sessionService.update(sessionId, updateSessionDto);
   }
 
   // Delete a Session

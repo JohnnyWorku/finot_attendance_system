@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateAttendanceSessionDto } from "./dto/create-attendance-session.dto";
+import { CreateSessionDto } from "./dto/create-session.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AttendanceSession } from "./entities/attendance-session.entity";
 import { Repository } from "typeorm";
-import { UpdateAttendanceSessionDto } from "./dto/update-attendance-session.dto";
+import { UpdateSessionDto } from "./dto/update-session.dto";
 import { FindSessionDto } from "./dto/find-session.dto";
 
 @Injectable()
@@ -14,8 +14,8 @@ export class SessionService {
   ) {}
 
   // Create a Session
-  async create(createAttendanceSessionDto: CreateAttendanceSessionDto) {
-    const session = this.sessionRepository.create(createAttendanceSessionDto);
+  async create(createSessionDto: CreateSessionDto) {
+    const session = this.sessionRepository.create(createSessionDto);
     return this.sessionRepository.save(session);
   }
 
@@ -90,16 +90,13 @@ export class SessionService {
     });
   }
 
-  async update(
-    sessionId: string,
-    updateAttendanceSessionDto: UpdateAttendanceSessionDto,
-  ) {
+  async update(sessionId: string, updateSessionDto: UpdateSessionDto) {
     const session = await this.findOneById(sessionId);
 
     if (!session)
       throw new NotFoundException(`Attendance with id ${sessionId} not found.`);
 
-    await this.sessionRepository.update(sessionId, updateAttendanceSessionDto);
+    await this.sessionRepository.update(sessionId, updateSessionDto);
     return this.findOneById(sessionId);
   }
 
