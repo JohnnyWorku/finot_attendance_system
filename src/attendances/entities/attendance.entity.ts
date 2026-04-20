@@ -1,43 +1,38 @@
-import { attendanceStatus } from "src/enums/attendance.status.enum";
+import { attendanceStatus } from "src/enums/attendance-status.enum";
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { AttendanceSession } from "./attendance.session.entity";
+import { AttendanceSession } from "./attendance-session.entity";
 import { User } from "src/users/entities/user.entity";
+import { attendanceType } from "src/enums/attendance-type.enum";
 
 @Entity()
 export class Attendance {
   @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  attendanceId!: string;
 
-  @Column({ nullable: true })
-  checkInTime!: Date;
+  @Column({
+    type: "enum",
+    enum: attendanceType,
+  })
+  attendanceType!: attendanceType;
 
   @Column({
     type: "enum",
     enum: attendanceStatus,
     default: attendanceStatus.ABSENT,
   })
-  checkInStatus!: attendanceStatus;
+  status!: attendanceStatus;
 
   @Column({ nullable: true })
-  checkOutTime!: Date;
-
-  @Column({
-    type: "enum",
-    enum: attendanceStatus,
-    default: attendanceStatus.ABSENT,
-  })
-  checkOutStatus!: attendanceStatus;
-
-  @Column({ nullable: true })
-  remark!: string;
+  remark?: string;
 
   @ManyToOne(() => AttendanceSession, (session) => session.records, {
     onDelete: "CASCADE",
@@ -45,10 +40,10 @@ export class Attendance {
   @JoinColumn()
   session!: AttendanceSession;
 
-  @ManyToOne(() => User, (user) => user.attendances, {
-    eager: true,
+  @ManyToOne(() => User, (user) => user.records, {
+    eager: false,
   })
-  @JoinColumn()
+  @JoinTable()
   user!: User;
 
   @CreateDateColumn({ type: "timestamptz" })

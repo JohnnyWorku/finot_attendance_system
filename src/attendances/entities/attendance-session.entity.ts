@@ -11,11 +11,10 @@ import { Attendance } from "./attendance.entity";
 @Entity()
 export class AttendanceSession {
   @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  sessionId!: string;
 
   @Column({
     type: "date",
-    unique: true,
     default: () => "CURRENT_DATE",
   })
   date!: string;
@@ -26,23 +25,23 @@ export class AttendanceSession {
   @Column({ nullable: true })
   sessionDescription?: string;
 
-  @Column({ type: "timestamptz", nullable: true })
-  startTime?: Date;
+  @Column({ type: "timestamptz" })
+  startTime!: Date;
 
-  @Column({ type: "timestamptz", nullable: true })
-  endTime?: Date;
+  @Column({ type: "timestamptz" })
+  endTime!: Date;
 
   @Column({ default: false })
   isClosed!: boolean;
+
+  @OneToMany(() => Attendance, (attendance) => attendance.session, {
+    cascade: true,
+  })
+  records!: Attendance[];
 
   @CreateDateColumn({ type: "timestamptz" })
   createdAt!: Date;
 
   @UpdateDateColumn({ type: "timestamptz" })
   updatedAt!: Date;
-
-  @OneToMany(() => Attendance, (attendance) => attendance.session, {
-    cascade: true,
-  })
-  records!: Attendance[];
 }
