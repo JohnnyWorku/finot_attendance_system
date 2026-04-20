@@ -5,7 +5,7 @@ import {
   IsString,
 } from "class-validator";
 
-export class CreateAttendanceSessionDto {
+export class CreateSessionDto {
   @IsString()
   @IsNotEmpty()
   sessionTitle!: string;
