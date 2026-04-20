@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateSessionDto } from "./dto/create-session.dto";
 import { InjectRepository } from "@nestjs/typeorm";
-import { AttendanceSession } from "./entities/attendance-session.entity";
+import { Session } from "./entities/session.entity";
 import { Repository } from "typeorm";
 import { UpdateSessionDto } from "./dto/update-session.dto";
 import { FindSessionDto } from "./dto/find-session.dto";
@@ -9,8 +9,8 @@ import { FindSessionDto } from "./dto/find-session.dto";
 @Injectable()
 export class SessionService {
   constructor(
-    @InjectRepository(AttendanceSession)
-    private readonly sessionRepository: Repository<AttendanceSession>,
+    @InjectRepository(Session)
+    private readonly sessionRepository: Repository<Session>,
   ) {}
 
   // Create a Session
