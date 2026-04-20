@@ -11,9 +11,7 @@ import {
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { usersRole } from "src/enums/users.roles.enum";
-// import { Public } from "src/decorators/public.decorator";
-import { Roles } from "src/decorators/roles.decorator";
+import { usersRole } from "src/enums/users-roles.enum";
 
 @Controller("users")
 export class UsersController {
@@ -25,7 +23,6 @@ export class UsersController {
   }
 
   @Get()
-  @Roles(usersRole.ADMIN)
   findAll(@Query("role") role?: usersRole) {
     return this.usersService.findAll(role);
   }
