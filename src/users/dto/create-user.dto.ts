@@ -9,8 +9,8 @@ import {
   MaxDate,
   IsDate,
 } from "class-validator";
-import { otherSundaySchoolEnrollment } from "src/enums/other.sunday.school.enrollment.enum";
-import { usersRole } from "src/enums/users.roles.enum";
+import { otherSundaySchoolEnrollment } from "src/enums/other-sunday-school-enrollment.enum";
+import { usersRole } from "src/enums/users-roles.enum";
 
 export class CreateUserDto {
   @IsString()
