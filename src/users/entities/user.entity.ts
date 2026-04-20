@@ -8,8 +8,8 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
-import { usersRole } from "src/enums/users.roles.enum";
-import { otherSundaySchoolEnrollment } from "src/enums/other.sunday.school.enrollment.enum";
+import { usersRole } from "src/enums/users-roles.enum";
+import { otherSundaySchoolEnrollment } from "src/enums/other-sunday-school-enrollment.enum";
 import { Attendance } from "src/attendances/entities/attendance.entity";
 @Entity()
 export class User {
@@ -71,5 +71,5 @@ export class User {
   deletedAt!: Date | null;
 
   @OneToMany(() => Attendance, (attendance) => attendance.user)
-  attendances!: Attendance;
+  records!: Attendance[];
 }
