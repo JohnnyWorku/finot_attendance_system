@@ -2,10 +2,10 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User } from "./entities/user.entity";
-import { usersRole } from "src/enums/users.roles.enum";
+import { usersRole } from "src/enums/users-roles.enum";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { UserIdGenerator } from "src/users/helper_functions/user.id.generator";
+import { UserIdGenerator } from "src/users/helper_functions/user-id-generator";
 
 @Injectable()
 export class UsersService {
