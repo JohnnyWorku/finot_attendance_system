@@ -1,34 +1,76 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { AttendancesService } from './attendances.service';
-import { CreateAttendanceDto } from './dto/create-attendance.dto';
-import { UpdateAttendanceDto } from './dto/update-attendance.dto';
+import {
+  Controller,
+  Post,
+  Param,
+  Body,
+  Get,
+  Patch,
+  Delete,
+  Query,
+} from "@nestjs/common";
+import { AttendanceService } from "./attendances.service";
+import { CreateAttendanceDto } from "./dto/create-attendance.dto";
+import { UpdateAttendanceDto } from "./dto/update-attendance.dto";
+import { attendanceType } from "src/enums/attendance-type.enum";
+import { FindAttendanceDto } from "./dto/find-attendance.dto";
 
-@Controller('attendances')
-export class AttendancesController {
-  constructor(private readonly attendancesService: AttendancesService) {}
+@Controller("attendance")
+export class AttendanceController {
+  constructor(private attendanceService: AttendanceService) {}
 
-  @Post()
-  create(@Body() createAttendanceDto: CreateAttendanceDto) {
-    return this.attendancesService.create(createAttendanceDto);
+  // Create Attendace
+  @Post(":sessionId")
+  create(
+    @Param("sessionId") sessionId: string,
+    @Body() createAttendanceDto: CreateAttendanceDto,
+  ) {
+    return this.attendanceService.create(sessionId, createAttendanceDto);
   }
 
+  // Get all Attendances
   @Get()
-  findAll() {
-    return this.attendancesService.findAll();
+  findAll(@Query("attendanceType") attendanceType?: attendanceType) {
+    return this.attendanceService.findAll(attendanceType);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.attendancesService.findOne(+id);
+  // Get a Specific Attendance By Id
+  @Get(":attendanceId")
+  findOneById(@Param("attendanceId") attendanceId: string) {
+    return this.attendanceService.findOneById(attendanceId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAttendanceDto: UpdateAttendanceDto) {
-    return this.attendancesService.update(+id, updateAttendanceDto);
+  // Get a Specific Attendance By date and attendance type
+  @Get("search")
+  findOne(@Query() findAttendanceDto: FindAttendanceDto) {
+    return this.attendanceService.findOne(findAttendanceDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.attendancesService.remove(+id);
+  // Update an Attendance
+  @Patch(":attendanceId")
+  update(
+    @Param("attendanceId") attendanceId: string,
+    @Body() updateAttendaceDto: UpdateAttendanceDto,
+  ) {
+    return this.attendanceService.update(attendanceId, updateAttendaceDto);
   }
+
+  // Update Attendances in a session
+  @Patch("bulkupdate/:sessionId")
+  bulkUpdate(
+    @Param("sessionId") sessionId: string,
+    @Body() updateAttendaceDtos: UpdateAttendanceDto[],
+  ) {
+    return this.attendanceService.bulkUpdate(sessionId, updateAttendaceDtos);
+  }
+
+  // Delete an Attendance
+  @Delete(":attendanceId")
+  remove(@Param("attendanceId") attendanceId: string) {
+    return this.attendanceService.remove(attendanceId);
+  }
+
+  // @Get("session/:sessionId/students")
+  // getSessionAttendance(@Param("sessionId") sessionId: string) {
+  //   return this.attendanceService.getSessionAttendance(sessionId);
+  // }
 }
