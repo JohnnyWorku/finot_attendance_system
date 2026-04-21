@@ -18,10 +18,6 @@ export class AttendanceService {
   constructor(
     @InjectRepository(Attendance)
     private attendanceRepository: Repository<Attendance>,
-    // @InjectRepository(AttendanceSession)
-    // private sessionRepository: Repository<AttendanceSession>,
-    // @InjectRepository(User)
-    // private userRepository: Repository<User>,
     private userService: UsersService,
     private sessionService: SessionService,
   ) {}
