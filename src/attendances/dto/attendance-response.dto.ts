@@ -1,5 +1,5 @@
-import { User } from "src/users/entities/user.entity";
 import { Session } from "../entities/session.entity";
+import { UserResponseDto } from "src/users/dto/user-response.dto";
 
 export class AttendanceResoponseDto {
   attendanceId?: string;
@@ -7,7 +7,7 @@ export class AttendanceResoponseDto {
   status?: string;
   remark?: string;
   session?: Session;
-  user?: User;
+  user?: UserResponseDto;
   createdAt?: Date;
   updatedAt?: Date;
 }

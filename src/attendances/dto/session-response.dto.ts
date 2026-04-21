@@ -1,4 +1,4 @@
-import { Attendance } from "../entities/attendance.entity";
+import { AttendanceResoponseDto } from "./attendance-response.dto";
 
 export class SessionResoponseDto {
   sessionId?: string;
@@ -8,7 +8,7 @@ export class SessionResoponseDto {
   startTime?: Date;
   endTime?: Date;
   isClosed?: boolean;
-  records?: Attendance[];
+  records?: AttendanceResoponseDto;
   createdAt?: Date;
   updatedAt?: Date;
 }
