@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { AttendanceSession } from "./session.entity";
+import { Session } from "./session.entity";
 import { User } from "src/users/entities/user.entity";
 import { attendanceType } from "src/enums/attendance-type.enum";
 
@@ -34,11 +34,11 @@ export class Attendance {
   @Column({ nullable: true })
   remark?: string;
 
-  @ManyToOne(() => AttendanceSession, (session) => session.records, {
+  @ManyToOne(() => Session, (session) => session.records, {
     onDelete: "CASCADE",
   })
   @JoinColumn()
-  session!: AttendanceSession;
+  session!: Session;
 
   @ManyToOne(() => User, (user) => user.records, {
     eager: false,
