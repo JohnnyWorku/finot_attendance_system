@@ -4,7 +4,6 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -43,7 +42,6 @@ export class Attendance {
   @ManyToOne(() => User, (user) => user.records, {
     eager: false,
   })
-  @JoinTable()
   user!: User;
 
   @CreateDateColumn({ type: "timestamptz" })
