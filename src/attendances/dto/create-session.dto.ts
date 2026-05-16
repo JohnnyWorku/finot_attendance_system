@@ -15,6 +15,10 @@ export class CreateSessionDto {
   @IsOptional()
   sessionDescription?: string;
 
+  @IsOptional()
+  @IsDateString()
+  date?: string;
+
   @IsDateString({}, { message: "startTime must be a valid ISO date-time" })
   startTime!: string;
 
