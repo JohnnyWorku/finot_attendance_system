@@ -1,5 +1,6 @@
 import {
   IsDateString,
+  IsMilitaryTime,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -10,18 +11,16 @@ export class CreateSessionDto {
   @IsNotEmpty()
   sessionTitle!: string;
 
-  @IsString()
-  @IsNotEmpty()
   @IsOptional()
+  @IsString()
   sessionDescription?: string;
 
-  @IsOptional()
   @IsDateString()
-  date?: string;
+  date!: string;
 
-  @IsDateString({}, { message: "startTime must be a valid ISO date-time" })
+  @IsMilitaryTime()
   startTime!: string;
 
-  @IsDateString({}, { message: "startTime must be a valid ISO date-time" })
+  @IsMilitaryTime()
   endTime?: string;
 }

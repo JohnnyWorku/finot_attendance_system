@@ -25,14 +25,17 @@ export class Session {
   @Column({ nullable: true })
   sessionDescription?: string;
 
-  @Column({ type: "timestamptz" })
+  @Column({ type: "time" })
   startTime!: Date;
 
-  @Column({ type: "timestamptz" })
+  @Column({ type: "time" })
   endTime!: Date;
 
   @Column({ default: false })
-  isClosed!: boolean;
+  isCheckedIn!: boolean;
+
+  @Column({ default: false })
+  isCheckedOut!: boolean;
 
   @OneToMany(() => Attendance, (attendance) => attendance.session, {
     cascade: true,
