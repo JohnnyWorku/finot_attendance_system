@@ -55,4 +55,11 @@ export class SessionController {
   remove(@Param("sessionId") sessionId: string) {
     return this.sessionService.remove(sessionId);
   }
+
+  // For status update
+  @Get('dashboard/stats')
+  async getDashboardStats() {
+    // Implement logic to aggregate attendance data
+    return this.sessionService.getDashboardStats();
+  }
 }
