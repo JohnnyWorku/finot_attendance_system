@@ -58,9 +58,9 @@ export class AttendanceController {
   @Patch("bulkupdate/:sessionId")
   bulkUpdate(
     @Param("sessionId") sessionId: string,
-    @Body() updateAttendaceDtos: UpdateAttendanceDto[],
+    @Body() updateAttendanceDtos: UpdateAttendanceDto[],
   ) {
-    return this.attendanceService.bulkUpdate(sessionId, updateAttendaceDtos);
+    return this.attendanceService.bulkUpdate(sessionId, updateAttendanceDtos);
   }
 
   // Delete an Attendance

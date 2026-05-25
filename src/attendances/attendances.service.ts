@@ -162,7 +162,7 @@ export class AttendanceService {
 
   async bulkUpdate(
     sessionId: string,
-    updateAttendaceDtos: UpdateAttendanceDto[],
+    updateAttendanceDtos: UpdateAttendanceDto[],
   ) {
     const session = await this.sessionService.findOneById(sessionId);
 
@@ -176,7 +176,10 @@ export class AttendanceService {
 
     const recordMap = new Map(records.map((r) => [r.attendanceId, r]));
 
-    updateAttendaceDtos.forEach((update) => {
+    console.log(updateAttendanceDtos);
+    console.log(Array.isArray(updateAttendanceDtos));
+
+    updateAttendanceDtos.forEach((update) => {
       const record = recordMap.get(update.attendanceId);
       if (!record) return;
 
