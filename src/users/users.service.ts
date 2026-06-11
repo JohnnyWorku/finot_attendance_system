@@ -64,12 +64,10 @@ export class UsersService {
     const newFullName = updateUserDto.userFullName ?? user.userFullName;
     const newRole = updateUserDto.userRole ?? user.userRole;
 
-    if (updateUserDto.userFullName || updateUserDto.userRole) {
-      userId = await this.userIdGenerator.generateUserId(
-        newFullName,
-        newRole,
-      );
-    }
+    userId = await this.userIdGenerator.generateUserId(
+      newFullName,
+      newRole,
+    );
 
     const updatedDto = {
       ...updateUserDto,
