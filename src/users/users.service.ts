@@ -6,6 +6,7 @@ import { usersRole } from "src/enums/users-roles.enum";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserIdGenerator } from "src/users/utils/user-id-generator";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class UsersService {
@@ -18,10 +19,18 @@ export class UsersService {
   // transaction concept is not considered yet
   async create(createUserDto: CreateUserDto) {
     const userId = await this.userIdGenerator.generateUserId(createUserDto.userFullName, createUserDto.userRole);
+    
+    // Hashing user password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(
+      createUserDto.password,
+      saltRounds,
+    );
 
     const newUser = this.userRepository.create({
       ...createUserDto,
       userId,
+      password: hashedPassword,
       dateOfBirth: createUserDto.dateOfBirth
         ? new Date(createUserDto.dateOfBirth)
         : null,
