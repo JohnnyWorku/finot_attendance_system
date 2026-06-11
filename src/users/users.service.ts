@@ -57,23 +57,34 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const user = await this.findOneById(id)
-    let userId = user.userId
+    const user = await this.findOneById(id);
 
+    let userId = user.userId;
+
+    const newFullName = updateUserDto.userFullName ?? user.userFullName;
+    const newRole = updateUserDto.userRole ?? user.userRole;
 
     if (updateUserDto.userFullName || updateUserDto.userRole) {
-      userId = await this.userIdGenerator.generateUserId(updateUserDto.userFullName, updateUserDto.userRole)
+      userId = await this.userIdGenerator.generateUserId(
+        newFullName,
+        newRole,
+      );
     }
 
     const updatedDto = {
       ...updateUserDto,
+      userId,
       dateOfBirth: updateUserDto.dateOfBirth
         ? new Date(updateUserDto.dateOfBirth)
-        : null,
+        : user.dateOfBirth,
     };
 
-    await this.userRepository.update(id, updatedDto);
-    return user;
+    await this.userRepository.save({
+      ...user,
+      ...updatedDto,
+    });
+
+    return this.findOneById(id);
   }
 
   async remove(id: string) {
