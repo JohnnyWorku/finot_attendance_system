@@ -55,11 +55,12 @@ export class User {
   @Column({
     type: "enum",
     enum: usersRole,
+    default: usersRole.STUDENT,
   })
   userRole!: usersRole;
 
-  @Column()
-  password!: string;
+  @Column({ nullable: true })
+  password?: string;
 
   @CreateDateColumn({ type: "timestamptz" })
   createdAt!: Date;

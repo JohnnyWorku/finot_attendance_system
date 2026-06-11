@@ -57,11 +57,12 @@ export class CreateUserDto {
   otherSundaySchoolEnrollment!: otherSundaySchoolEnrollment;
 
   @IsEnum(usersRole, {
-    message: "valid role required (student or admin)",
+    message: "valid role required (student, admin or superAdmin)",
   })
-  userRole!: usersRole;
+  @IsOptional()
+  userRole?: usersRole;
 
   @IsStrongPassword()
-  @IsNotEmpty()
-  password!: string;
+  @IsOptional()
+  password?: string;
 }
