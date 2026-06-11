@@ -104,20 +104,20 @@ export class RegisterWizard {
 
   @WizardStep(11)
   async final(ctx: any) {
-    const dto = {
-      userFullName: ctx.wizard.state.userFullName,
-      userPhone: ctx.wizard.state.userPhone,
-      userEmail: ctx.wizard.state.userEmail,
-      fatherName: ctx.wizard.state.fatherName,
-      fatherPhone: ctx.wizard.state.fatherPhone,
-      motherName: ctx.wizard.state.motherName,
-      motherPhone: ctx.wizard.state.motherPhone,
-      address: ctx.wizard.state.address,
-      dateOfBirth: ctx.wizard.state.dateOfBirth,
-      otherSundaySchoolEnrollment: ctx.wizard.state.otherSundaySchoolEnrollment,
-    }
+    // const dto = {
+    //   userFullName: ctx.wizard.state.userFullName,
+    //   userPhone: ctx.wizard.state.userPhone,
+    //   userEmail: ctx.wizard.state.userEmail,
+    //   fatherName: ctx.wizard.state.fatherName,
+    //   fatherPhone: ctx.wizard.state.fatherPhone,
+    //   motherName: ctx.wizard.state.motherName,
+    //   motherPhone: ctx.wizard.state.motherPhone,
+    //   address: ctx.wizard.state.address,
+    //   dateOfBirth: ctx.wizard.state.dateOfBirth,
+    //   otherSundaySchoolEnrollment: ctx.wizard.state.otherSundaySchoolEnrollment,
+    // }
 
-    await this.userService.create(dto);
+    // await this.userService.create(dto);
 
     await ctx.reply(
         "በተሳካ ኹኔታ ተመዝግበዋል። ስለ ተመዘገቡ እናመሰግናለን።"

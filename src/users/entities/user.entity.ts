@@ -59,8 +59,8 @@ export class User {
   })
   userRole!: usersRole;
 
-  @Column({ nullable: true })
-  password?: string;
+  @Column()
+  password!: string;
 
   @CreateDateColumn({ type: "timestamptz" })
   createdAt!: Date;
