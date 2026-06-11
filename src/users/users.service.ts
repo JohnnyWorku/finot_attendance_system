@@ -5,7 +5,7 @@ import { User } from "./entities/user.entity";
 import { usersRole } from "src/enums/users-roles.enum";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { UserIdGenerator } from "src/users/helper_functions/user-id-generator";
+import { UserIdGenerator } from "src/users/utils/user-id-generator";
 
 @Injectable()
 export class UsersService {
@@ -57,6 +57,10 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
+    if (updateUserDto.userFullName) {
+      const userId = await this.userIdGenerator.generateUserId(updateUserDto);
+    }
+
     const updatedDto = {
       ...updateUserDto,
       dateOfBirth: updateUserDto.dateOfBirth
