@@ -17,7 +17,7 @@ export class UsersService {
 
   // transaction concept is not considered yet
   async create(createUserDto: CreateUserDto) {
-    const userId = await this.userIdGenerator.generateUserId(createUserDto);
+    const userId = await this.userIdGenerator.generateUserId(createUserDto.userFullName, createUserDto.userRole);
 
     const newUser = this.userRepository.create({
       ...createUserDto,
@@ -57,8 +57,12 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    if (updateUserDto.userFullName) {
-      const userId = await this.userIdGenerator.generateUserId(updateUserDto);
+    const user = await this.findOneById(id)
+    let userId = user.userId
+
+
+    if (updateUserDto.userFullName || updateUserDto.userRole) {
+      userId = await this.userIdGenerator.generateUserId(updateUserDto.userFullName, updateUserDto.userRole)
     }
 
     const updatedDto = {
@@ -67,8 +71,9 @@ export class UsersService {
         ? new Date(updateUserDto.dateOfBirth)
         : null,
     };
+
     await this.userRepository.update(id, updatedDto);
-    return this.findOneById(id);
+    return user;
   }
 
   async remove(id: string) {

@@ -12,15 +12,19 @@ export class UserIdGenerator {
   ) {}
 
   // Helper function to generate userId
-  async generateUserId(createUserDto: CreateUserDto): Promise<string> {
-    const { userFullName, userRole } = createUserDto;
-
-    const splitted_full_name = userFullName.split(" ");
+  async generateUserId(userFullName?: string, userRole?: string): Promise<string> {
+    const splitted_full_name = userFullName ? userFullName.trim().split(" ") : [];
 
     if (splitted_full_name.length < 3)
       throw new BadRequestException(
         "userFullName name must be at least 3 characters long",
       );
+
+    if (!userRole) {
+      throw new BadRequestException(
+        "user role must be provided."
+      )
+    }
 
     const first3 = splitted_full_name[0].slice(0, 3).toLowerCase();
     const middle2 = splitted_full_name[1].slice(0, 2).toLowerCase();
