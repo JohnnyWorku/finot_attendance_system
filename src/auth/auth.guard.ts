@@ -20,13 +20,14 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     // This can be deleted if we decided to use @UseGuards(AuthGuard) on the top of each auth needed endpoints
+
     if (context.getType() as string === 'telegraf') {
-      return true; // Pass through completely for Telegram bot handlers
+      return true;
     }
 
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      context.getHandler(),
-      context.getClass(),
+    context.getHandler(),
+    context.getClass(),
     ]);
     if (isPublic) {
       return true;
