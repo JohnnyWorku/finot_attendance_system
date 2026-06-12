@@ -10,7 +10,14 @@ export class BotUpdate {
   @Start()
   async start(@Ctx() ctx: Context) {
     await ctx.reply(
-      "እንኳን ደኅና መጡ። ይህ ቀዳማይ ክፍልን መማር ለሚፈልጉ ተማሪዎች መመዝገብያ ቦት ነው።"
+      `
+        እንኳን ደኅና መጡ። ይህ ቀዳማይ ክፍልን መማር ለሚፈልጉ ተማሪዎች መመዝገብያ ቦት ነው።
+
+        Available commands:
+
+        /register (ለመመዝገብ)
+        /help (እርዳታ)
+      `
     );
   }
 

@@ -43,7 +43,7 @@ export class RegisterWizard {
   async step5(ctx: any) {
     ctx.wizard.state.phoneNumber = ctx.message.text;
 
-    await ctx.reply('የትምህርት ደረጃዎን ያስገቡ');
+    await ctx.reply('በዓለማዊ ትምህርት የሚማሩበትን የትምህርት ደረጃ ያስገቡ (ሠራተኛ ከኾኑ ሠራተኛ ብለው ይሙሉ)');
     ctx.wizard.next();
   }
 
