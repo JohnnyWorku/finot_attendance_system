@@ -12,12 +12,7 @@ import { StudentsModule } from 'src/students/students.module';
       token: process.env.TELEGRAM_BOT_TOKEN!,
       middlewares: [session()],
       include: [RegisterWizard],
-      launchOptions: {
-        webhook: {
-          domain: process.env.WEBHOOK_DOMAIN!,
-          hookPath: '/telegram/webhook',
-        },
-      },
+      launchOptions: {},
     }),
   ],
   providers: [BotUpdate, RegisterWizard],
