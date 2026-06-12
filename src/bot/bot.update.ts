@@ -6,9 +6,6 @@ import type { WizardContext } from 'telegraf/scenes';
 
 @Update()
 export class BotUpdate {
-  constructor(
-    private readonly userService: UsersService,
-  ) {}
 
   @Start()
   async start(@Ctx() ctx: Context) {
