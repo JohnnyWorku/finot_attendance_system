@@ -14,7 +14,7 @@ export class Student {
     @Column()
     age!: string;
 
-    @Column()
+    @Column({ unique: true })
     phoneNumber!: string;
 
     @Column()

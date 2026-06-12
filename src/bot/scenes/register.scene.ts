@@ -7,22 +7,19 @@ import { StudentsService } from 'src/students/students.service';
 
 @Wizard('register-wizard')
 export class RegisterWizard {
-  constructor(
-      private readonly studentsService: StudentsService,
-    ) {}
+  constructor(private readonly studentsService: StudentsService) {}
 
   @WizardStep(1)
-  async step1(ctx: WizardContext) {
-    await ctx.reply('ሙሉ ስምዎን ከነ አያት ያስገቡ');
+  async step1(ctx: any) {
+    await ctx.reply('ሙሉ ስምዎን ያስገቡ');
     ctx.wizard.next();
   }
 
   @WizardStep(2)
   async step2(ctx: any) {
-    ctx.wizard.state.FullName = ctx.message.text;
+    ctx.wizard.state.fullName = ctx.message.text;
 
     await ctx.reply('የክርስትና ስምዎን ያስገቡ');
-
     ctx.wizard.next();
   }
 
@@ -31,7 +28,6 @@ export class RegisterWizard {
     ctx.wizard.state.baptismName = ctx.message.text;
 
     await ctx.reply('እድሜዎን ያስገቡ');
-
     ctx.wizard.next();
   }
 
@@ -40,7 +36,6 @@ export class RegisterWizard {
     ctx.wizard.state.age = ctx.message.text;
 
     await ctx.reply('ስልክ ቁጥርዎን ያስገቡ');
-
     ctx.wizard.next();
   }
 
@@ -48,8 +43,7 @@ export class RegisterWizard {
   async step5(ctx: any) {
     ctx.wizard.state.phoneNumber = ctx.message.text;
 
-    await ctx.reply('በዓለማዊ ትምህርት የሚማሩበትን የትምህርት ደረጃ ያስገቡ (ሠራተኛ ከኾኑ ሠራተኛ ብለው ይሙሉ)');
-
+    await ctx.reply('የትምህርት ደረጃዎን ያስገቡ');
     ctx.wizard.next();
   }
 
@@ -58,32 +52,30 @@ export class RegisterWizard {
     ctx.wizard.state.learningStatus = ctx.message.text;
 
     await ctx.reply(
-      'ትምህርቱን ለመማር የሚመችዎትን ጊዜ ካሉት ምርጫዎች መካከል ይምረጡ',
-      suitableTimeKeyboard
+      'የሚመችዎትን ጊዜ ይምረጡ',
+      suitableTimeKeyboard,
     );
-
-    ctx.wizard.suitableTime = ctx.message.text;
 
     ctx.wizard.next();
   }
 
   @WizardStep(7)
-  async final(ctx: any) {
+  async step7(ctx: any) {
+    ctx.wizard.state.suitableTime = ctx.message.text;
+
     const dto = {
-      fullName: ctx.wizard.state.FullName,
-      baptismName: ctx.wizard.state.userPhone,
+      fullName: ctx.wizard.state.fullName,
+      baptismName: ctx.wizard.state.baptismName,
       age: ctx.wizard.state.age,
       phoneNumber: ctx.wizard.state.phoneNumber,
       learningStatus: ctx.wizard.state.learningStatus,
       suitableTime: ctx.wizard.state.suitableTime,
-    }
+    };
 
     await this.studentsService.create(dto);
 
-    await ctx.reply(
-        "በተሳካ ኹኔታ ተመዝግበዋል። ስለ ተመዘገቡ እናመሰግናለን።"
-    );
+    await ctx.reply('በተሳካ ኹኔታ ተመዝግበዋል ✅');
 
-    await ctx.scene.leave();
+    return ctx.scene.leave();
   }
 }

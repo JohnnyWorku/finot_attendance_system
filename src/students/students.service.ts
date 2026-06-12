@@ -15,14 +15,19 @@ export class StudentsService {
   async create(createStudentDto: CreateStudentDto) {
     const newStudent = this.studentRepository.create(createStudentDto);
 
-    return await this.studentRepository.save(newStudent);
+    try {
+      return await this.studentRepository.save(newStudent);
+    } catch (e) {
+      console.error(e);
+      throw new Error('Failed to save student');
+    } 
   }
 
   findAll() {
     return `This action returns all students`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} student`;
   }
 

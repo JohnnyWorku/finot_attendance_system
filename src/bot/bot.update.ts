@@ -28,7 +28,7 @@ export class BotUpdate {
   }
 
   @Command("register")
-  async register(@Ctx() ctx: WizardContext) {
-    await ctx.scene.enter('register-scene')
+  async register(@Ctx() ctx: any) {
+    return ctx.scene.enter('register-wizard');
   }
 }
