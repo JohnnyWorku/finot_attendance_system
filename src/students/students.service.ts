@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -23,19 +23,31 @@ export class StudentsService {
     } 
   }
 
-  findAll() {
-    return `This action returns all students`;
+  async findAll() {
+    return await this.studentRepository.find();
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} student`;
+  async findOne(id: string) {
+    const student = await this.studentRepository.findOneBy({ id })
+
+    if (!student) {
+      return `No student found with id #${id}`;
+    }
+
+    return student;
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
+  async update(id: number, updateStudentDto: UpdateStudentDto) {
+    return await this.studentRepository.update(id, updateStudentDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} student`;
+  async remove(id: string) {
+    const student = await this.findOne(id)
+
+    if (!student) {
+      throw new NotFoundException(`Student with ID ${id} not found`);
+    }
+
+    return await this.studentRepository.delete(student);
   }
 }
