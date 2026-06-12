@@ -74,7 +74,12 @@ export class RegisterWizard {
 
     await this.studentsService.create(dto);
 
-    await ctx.reply('በተሳካ ኹኔታ ተመዝግበዋል ✅');
+    await ctx.reply(`
+      በተሳካ ኹኔታ ተመዝግበዋል ✅
+
+      ተጨማሪ መረጃዎችን በዓውደ ምሕረት ማስታወቂያ እንዲሁም በስልክ ደውለን የምናሳውቅ ይሆናል። 
+      ማንኛውም ጥያቄ ካልዎት በ 0920811858 ደውለው መጠየቅ ይችላሉ።
+      `);
 
     return ctx.scene.leave();
   }
