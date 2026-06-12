@@ -14,7 +14,7 @@ import { StudentsModule } from 'src/students/students.module';
       launchOptions: {
         webhook: {
           domain: process.env.WEBHOOK_DOMAIN!,
-          hookPath: '/api/v1/telegram/webhook',
+          hookPath: '/telegram/webhook',
         },
       },
     }),
