@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString } from "class-validator";
 export class CreateStudentDto {
     @IsString()
     @IsNotEmpty()
-    FullName!: string;
+    fullName!: string;
 
     @IsString()
     @IsNotEmpty()
