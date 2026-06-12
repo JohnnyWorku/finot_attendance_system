@@ -70,7 +70,7 @@ export class RegisterWizard {
   @WizardStep(7)
   async final(ctx: any) {
     const dto = {
-      FullName: ctx.wizard.state.FullName,
+      fullName: ctx.wizard.state.FullName,
       baptismName: ctx.wizard.state.userPhone,
       age: ctx.wizard.state.age,
       phoneNumber: ctx.wizard.state.phoneNumber,
