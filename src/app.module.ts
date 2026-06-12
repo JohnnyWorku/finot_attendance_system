@@ -11,6 +11,8 @@ import { RolesGuard } from "./auth/roles.guard";
 import { AttendancesModule } from "./attendances/attendances.module";
 import { BotModule } from './bot/bot.module';
 import { StudentsModule } from './students/students.module';
+import { TelegrafModule } from "nestjs-telegraf";
+import { session } from "telegraf";
 
 @Module({
   imports: [
@@ -33,6 +35,12 @@ import { StudentsModule } from './students/students.module';
       ssl: {
         rejectUnauthorized: false,
       },
+    }),
+
+    TelegrafModule.forRoot({
+      token: process.env.TELEGRAM_BOT_TOKEN!,
+      middlewares: [session()],
+      launchOptions: {},
     }),
 
     AuthModule,

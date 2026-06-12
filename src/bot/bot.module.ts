@@ -6,15 +6,8 @@ import { RegisterWizard } from './scenes/register.scene';
 import { StudentsModule } from 'src/students/students.module';
 
 @Module({
-  imports: [
-    StudentsModule,
-    TelegrafModule.forRoot({
-      token: process.env.TELEGRAM_BOT_TOKEN!,
-      middlewares: [session()],
-      include: [RegisterWizard],
-      launchOptions: {},
-    }),
-  ],
+  imports: [StudentsModule,],
   providers: [BotUpdate, RegisterWizard],
+  exports: [BotUpdate, RegisterWizard],
 })
 export class BotModule {}
