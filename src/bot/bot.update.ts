@@ -30,10 +30,5 @@ export class BotUpdate {
   @Command("register")
   async register(@Ctx() ctx: WizardContext) {
     await ctx.scene.enter('register-scene')
-//     const student = await this.userService.create(createUserDto);
-
-//     await ctx.reply(
-//         "በተሳካ ኹኔታ ተመዝግበዋል። ስለ ተመዘገቡ እናመሰግናለን።"
-//     );
   }
 }

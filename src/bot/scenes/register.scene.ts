@@ -2,122 +2,83 @@ import { Wizard, WizardStep } from 'nestjs-telegraf';
 import { UsersService } from 'src/users/users.service';
 import { Context } from 'telegraf';
 import type { WizardContext } from 'telegraf/scenes';
-import { enrollmentKeyboard } from '../keyboards/enrollmets.keyboard';
+import { suitableTimeKeyboard } from '../keyboards/suitable.time.keyboard';
+import { StudentsService } from 'src/students/students.service';
 
 @Wizard('register-wizard')
 export class RegisterWizard {
   constructor(
-      private readonly userService: UsersService,
+      private readonly studentsService: StudentsService,
     ) {}
 
   @WizardStep(1)
   async step1(ctx: WizardContext) {
-    await ctx.reply('የተማሪውን ሙሉ ስም ያስገቡ');
+    await ctx.reply('ሙሉ ስምዎን ከነ አያት ያስገቡ');
     ctx.wizard.next();
   }
 
   @WizardStep(2)
   async step2(ctx: any) {
-    ctx.wizard.state.userFullName = ctx.message.text;
+    ctx.wizard.state.FullName = ctx.message.text;
 
-    await ctx.reply('የተማሪውን ስልክ ቁጥር ያስገቡ');
+    await ctx.reply('የክርስትና ስምዎን ያስገቡ');
 
     ctx.wizard.next();
   }
 
   @WizardStep(3)
   async step3(ctx: any) {
-    ctx.wizard.state.userPhone = ctx.message.text;
+    ctx.wizard.state.baptismName = ctx.message.text;
 
-    await ctx.reply('የተማሪውን ኢሜይል ያስገቡ');
+    await ctx.reply('እድሜዎን ያስገቡ');
 
     ctx.wizard.next();
   }
 
   @WizardStep(4)
   async step4(ctx: any) {
-    ctx.wizard.state.userEmail = ctx.message.text;
+    ctx.wizard.state.age = ctx.message.text;
 
-    await ctx.reply('የተማሪውን ወላጅ አባት ሙሉ ስም ያስገቡ');
+    await ctx.reply('ስልክ ቁጥርዎን ያስገቡ');
 
     ctx.wizard.next();
   }
 
   @WizardStep(5)
   async step5(ctx: any) {
-    ctx.wizard.state.fatherName = ctx.message.text;
+    ctx.wizard.state.phoneNumber = ctx.message.text;
 
-    await ctx.reply('የተማሪውን ወላጅ አባት ስልክ ያስገቡ');
+    await ctx.reply('በዓለማዊ ትምህርት የሚማሩበትን የትምህርት ደረጃ ያስገቡ (ሠራተኛ ከኾኑ ሠራተኛ ብለው ይሙሉ)');
 
     ctx.wizard.next();
   }
 
   @WizardStep(6)
   async step6(ctx: any) {
-    ctx.wizard.state.fatherPhone = ctx.message.text;
+    ctx.wizard.state.learningStatus = ctx.message.text;
 
-    await ctx.reply('የተማሪውን ወላጅ እናት ሙሉ ስም ያስገቡ');
+    await ctx.reply(
+      'ትምህርቱን ለመማር የሚመችዎትን ጊዜ ካሉት ምርጫዎች መካከል ይምረጡ',
+      suitableTimeKeyboard
+    );
+
+    ctx.wizard.suitableTime = ctx.message.text;
 
     ctx.wizard.next();
   }
 
   @WizardStep(7)
-  async step7(ctx: any) {
-    ctx.wizard.state.motherName = ctx.message.text;
-
-    await ctx.reply('የተማሪውን ወላጅ እናት ስልክ ያስገቡ');
-
-    ctx.wizard.next();
-  }
-
-  @WizardStep(8)
-  async step8(ctx: any) {
-    ctx.wizard.state.motherPhone = ctx.message.text;
-
-    await ctx.reply('የተማሪውን መኖርያ አድራሻ ያስገቡ');
-
-    ctx.wizard.next();
-  }
-
-  @WizardStep(9)
-  async step9(ctx: any) {
-    ctx.wizard.state.address = ctx.message.text;
-
-    await ctx.reply('የተማሪው የትውልድ ቀን (እንደ ኢትዮጵያውያን አቆጣጠር) ያስገቡ');
-
-    ctx.wizard.next();
-  }
-
-  @WizardStep(10)
-  async step10(ctx: any) {
-    ctx.wizard.state.dateOfBirth = ctx.message.text;
-
-    await ctx.reply(
-      'ተማሪው ሌላ ሰንበት ትምህርት ቤት ተምረዋል?',
-      enrollmentKeyboard
-    );
-
-    ctx.wizard.state.otherSundaySchoolEnrollment = ctx.message.text;
-
-    ctx.wizard.next();
-  }
-
-  @WizardStep(11)
   async final(ctx: any) {
-    // const dto = {
-    //   userFullName: ctx.wizard.state.userFullName,
-    //   userPhone: ctx.wizard.state.userPhone,
-    //   userEmail: ctx.wizard.state.userEmail,
-    //   fatherName: ctx.wizard.state.fatherName,
-    //   fatherPhone: ctx.wizard.state.fatherPhone,
-    //   motherName: ctx.wizard.state.motherName,
-    //   motherPhone: ctx.wizard.state.motherPhone,
-    //   address: ctx.wizard.state.address,
-    //   dateOfBirth: ctx.wizard.state.dateOfBirth,
-    //   otherSundaySchoolEnrollment: ctx.wizard.state.otherSundaySchoolEnrollment,
-    // }
+    const dto = {
+      FullName: ctx.wizard.state.FullName,
+      baptismName: ctx.wizard.state.userPhone,
+      age: ctx.wizard.state.age,
+      phoneNumber: ctx.wizard.state.phoneNumber,
+      learningStatus: ctx.wizard.state.learningStatus,
+      suitableTime: ctx.wizard.state.suitableTime,
+    }
 
-    // await this.userService.create(dto);
+    await this.studentsService.create(dto);
 
     await ctx.reply(
         "በተሳካ ኹኔታ ተመዝግበዋል። ስለ ተመዘገቡ እናመሰግናለን።"

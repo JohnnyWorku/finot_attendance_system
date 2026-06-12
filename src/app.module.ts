@@ -10,6 +10,7 @@ import { AuthGuard } from "./auth/auth.guard";
 import { RolesGuard } from "./auth/roles.guard";
 import { AttendancesModule } from "./attendances/attendances.module";
 import { BotModule } from './bot/bot.module';
+import { StudentsModule } from './students/students.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { BotModule } from './bot/bot.module';
     UsersModule,
     AttendancesModule,
     BotModule,
+    StudentsModule,
   ],
   controllers: [AppController],
   providers: [
